@@ -1,5 +1,33 @@
 # Family History Demo Dataset
 
+## Running with Semiont
+
+Explore this dataset using [Semiont](https://github.com/The-AI-Alliance/semiont), an open-source knowledge base platform for annotation and knowledge extraction.
+
+### Prerequisites
+
+- **Node.js 20+** — [nodejs.org](https://nodejs.org/)
+- **Docker or Podman** — for the database and proxy containers
+- **Inference provider** — either an `ANTHROPIC_API_KEY` (cloud) or [Ollama](https://ollama.com/) running locally
+
+### Install and run
+
+```bash
+npm install -g @semiont/cli neo4j-driver
+git clone https://github.com/pingel-org/synthetic_family
+cd synthetic_family
+semiont local --yes
+```
+
+`semiont local` sets up and starts all services in one step. When it finishes, open **http://localhost:8080** and log in with:
+
+- **Email:** `admin@example.com`
+- **Password:** `password`
+
+For full details see the [Semiont Local Setup Guide](https://github.com/The-AI-Alliance/semiont/blob/main/docs/LOCAL-SEMIONT.md).
+
+---
+
 ## About This Dataset
 
 This directory contains **synthetic family history documents** created for demonstration purposes. All names, dates, locations, and events are fictional, though they are designed to be historically plausible and representative of typical American family histories from the mid-19th to early 20th centuries.
@@ -36,34 +64,6 @@ These materials are ideal for:
 - Demonstrating temporal annotation and timeline construction
 - Showing how historical context can enrich family narratives
 - Training annotation models on genealogical content
-
-## Running with Semiont
-
-Explore this dataset using [Semiont](https://github.com/The-AI-Alliance/semiont), an open-source knowledge base platform for annotation and knowledge extraction.
-
-### Prerequisites
-
-- **Node.js 20+** — [nodejs.org](https://nodejs.org/)
-- **Docker or Podman** — for the database and proxy containers
-- **Inference provider** — either an `ANTHROPIC_API_KEY` (cloud) or [Ollama](https://ollama.com/) running locally
-
-### Install and run
-
-```bash
-npm install -g @semiont/cli
-git clone https://github.com/pingel-org/synthetic_family
-cd synthetic_family
-semiont local --yes
-```
-
-`semiont local` sets up and starts all services in one step. When it finishes, open **http://localhost:8080** and log in with:
-
-- **Email:** `admin@example.com`
-- **Password:** `password`
-
-For full details see the [Semiont Local Setup Guide](https://github.com/The-AI-Alliance/semiont/blob/main/docs/LOCAL-SEMIONT.md).
-
----
 
 ## Note on Authenticity
 
