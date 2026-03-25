@@ -37,6 +37,34 @@ These materials are ideal for:
 - Showing how historical context can enrich family narratives
 - Training annotation models on genealogical content
 
+## Running with Semiont
+
+Explore this dataset using [Semiont](https://github.com/The-AI-Alliance/semiont), an open-source knowledge base platform for annotation and knowledge extraction.
+
+### Prerequisites
+
+- **Node.js 20+** — [nodejs.org](https://nodejs.org/)
+- **Docker or Podman** — for the database and proxy containers
+- **Inference provider** — either an `ANTHROPIC_API_KEY` (cloud) or [Ollama](https://ollama.com/) running locally
+
+### Install and run
+
+```bash
+npm install -g @semiont/cli
+git clone https://github.com/pingel-org/synthetic_family
+cd synthetic_family
+semiont local --yes
+```
+
+`semiont local` sets up and starts all services in one step. When it finishes, open **http://localhost:8080** and log in with:
+
+- **Email:** `admin@example.com`
+- **Password:** `password`
+
+For full details see the [Semiont Local Setup Guide](https://github.com/The-AI-Alliance/semiont/blob/main/docs/LOCAL-SEMIONT.md).
+
+---
+
 ## Note on Authenticity
 
 While these documents aim for historical plausibility, they should not be used as actual historical references. They are educational tools designed to demonstrate information extraction and annotation techniques on familiar, accessible content that many people can relate to through their own family histories.
