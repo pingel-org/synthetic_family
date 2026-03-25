@@ -1,0 +1,12 @@
+[project]
+name = "synthetic_family"
+version = "0.1.0"
+
+[git]
+sync = true
+
+[site]
+domain = "localhost:8080"
+siteName = "synthetic_family"
+adminEmail = ""
+oauthAllowedDomains = ["example.com"]
