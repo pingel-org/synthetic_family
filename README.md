@@ -1,29 +1,53 @@
 # Family History Demo Dataset
 
-## Running with Semiont
+Synthetic family history documents created for demonstration purposes — designed for annotation, entity recognition, and knowledge extraction.
+
+## About This Dataset
+
+This repository contains **synthetic family history documents** with fictional but historically plausible names, dates, locations, and events representative of typical American family histories from the mid-19th to early 20th centuries.
+
+- **Biographical narratives** — Life stories of fictional Turner family members
+- **Historical photographs** — Representative images that could appear in family collections
+- **Timeline entries** — Key life events presented in chronological format
+
+The stories reflect real historical experiences: Civil War service, westward expansion under the Homestead Act, the 1870s locust plagues, the transition from agricultural to industrial economies, and small-town American life in the late 1800s and early 1900s.
+
+This corpus is well-suited for entity recognition across people, places, dates, and events; mapping relationships between family members; temporal annotation and timeline construction; and showing how historical context can enrich family narratives.
+
+All content is fictional and should not be used as actual historical references.
+
+## Quick Start
 
 Explore this dataset using [Semiont](https://github.com/The-AI-Alliance/semiont), an open-source knowledge base platform for annotation and knowledge extraction.
 
-### Backend
-
 ### Prerequisites
 
-- **Container runtime** — [Apple Container](https://github.com/apple/container), [Docker](https://www.docker.com/), or [Podman](https://podman.io/)
-- **Inference provider** — an `ANTHROPIC_API_KEY` ([Anthropic Console](https://console.anthropic.com/)) or [Ollama](https://ollama.com/) running locally
+- A container runtime: [Apple Container](https://github.com/apple/container), [Docker](https://www.docker.com/), or [Podman](https://podman.io/)
+- An inference provider: `ANTHROPIC_API_KEY` or [Ollama](https://ollama.com/) for fully local inference
 
-```bash
-export ANTHROPIC_API_KEY=<your-api-key>
-```
+No npm or Node.js installation required — everything runs in containers.
 
 ### Backend
 
+Start the backend with one of the available inference configurations:
+
 ```bash
+# Fully local with Ollama (default, no API key needed)
 .semiont/scripts/local_backend.sh --email admin@example.com --password password
 ```
 
-Starts PostgreSQL and the Semiont backend in containers, and creates an admin user. The script stays attached and streams logs — open a separate terminal for the frontend. Press Ctrl+C to stop.
+```bash
+# Anthropic cloud inference
+export ANTHROPIC_API_KEY=<your-api-key>
+.semiont/scripts/local_backend.sh --config anthropic --email admin@example.com --password password
+```
 
-To run in the background instead: `.semiont/scripts/local_backend.sh &`
+```bash
+# See available configs
+.semiont/scripts/local_backend.sh --list-configs
+```
+
+Starts PostgreSQL and the Semiont backend in containers, and creates an admin user. The script stays attached and streams logs — open a separate terminal for the frontend. Press Ctrl+C to stop.
 
 Open **http://localhost:4000** to verify.
 
@@ -35,69 +59,34 @@ In a separate terminal:
 .semiont/scripts/local_frontend.sh
 ```
 
-Same as the backend — stays attached and streams logs. Press Ctrl+C to stop.
+Open **http://localhost:3000** and enter **http://localhost:4000** as the knowledge base URL. Log in with the credentials created during backend setup.
 
-Open **http://localhost:3000**.
+## What's Inside
 
-### Logging in
+The `.semiont/` directory contains the infrastructure to run a Semiont backend and frontend locally:
 
-Enter **http://localhost:4000** as the knowledge base URL. Log in with the username and password created during backend setup.
+```
+.semiont/
+├── config                        # Project name and settings
+├── compose/                      # Docker Compose files
+├── containers/                   # Dockerfiles for backend and frontend
+└── scripts/                      # Convenience scripts for local development
+```
 
-### Using Semiont
+Documents anywhere in the project root become resources in the knowledge base when you upload them through the UI or CLI.
 
-Semiont organizes work around seven composable flows. The ones most relevant to this dataset:
+## Inference Configuration
 
-- **Mark** — Annotate documents by selecting text manually or using AI-assisted detection (the ✨ button). Annotations follow the [W3C Web Annotation](https://github.com/The-AI-Alliance/semiont/blob/main/specs/docs/W3C-WEB-ANNOTATION.md) standard and can be highlights, comments, tags, or entity references.
-- **Bind** — Resolve entity references by linking annotations to other resources in the knowledge graph. The resolution wizard (🕸️🧙) searches for matching candidates and scores them.
-- **Yield** — Generate new resources from annotations. AI agents can produce summaries or new content from annotated passages.
-- **Match** — Search the knowledge base for candidates during entity resolution. Uses composite scoring across name similarity, entity type, graph connectivity, and optional LLM re-ranking.
-- **Gather** — Assemble surrounding context (text, metadata, graph neighborhood) to improve detection, resolution, and generation quality.
+Inference configs live in `.semiont/containers/semiontconfig/` and are selected with the `--config` flag. To create your own, add a `.toml` file to the same directory. See the [Configuration Guide](https://github.com/The-AI-Alliance/semiont/blob/main/docs/administration/CONFIGURATION.md) for the full reference.
 
-A typical workflow: upload documents → detect entities with AI → resolve references to build the knowledge graph → generate summaries or new resources from what you've found.
+## Documentation
 
-For deeper understanding, see the [architecture overview](https://github.com/The-AI-Alliance/semiont/blob/main/docs/ARCHITECTURE.md), the [project layout](https://github.com/The-AI-Alliance/semiont/blob/main/docs/PROJECT-LAYOUT.md), and the individual [flow docs](https://github.com/The-AI-Alliance/semiont/tree/main/docs/flows). The [API reference](https://github.com/The-AI-Alliance/semiont/blob/main/specs/docs/API.md) covers all HTTP endpoints.
+See the [Semiont repository](https://github.com/The-AI-Alliance/semiont) for full documentation:
 
-Other example knowledge bases: [gutenberg-kb](https://github.com/The-AI-Alliance/gutenberg-kb) (public domain literature) and [semiont-workflows](https://github.com/The-AI-Alliance/semiont-workflows) (end-to-end pipeline).
+- [Configuration Guide](https://github.com/The-AI-Alliance/semiont/blob/main/docs/administration/CONFIGURATION.md) — inference providers, vector search, graph database settings
+- [Project Layout](https://github.com/The-AI-Alliance/semiont/blob/main/docs/PROJECT-LAYOUT.md) — how `.semiont/` and resource files are organized
+- [Local Semiont](https://github.com/The-AI-Alliance/semiont/blob/main/docs/LOCAL-SEMIONT.md) — alternative setup paths including the Semiont CLI
 
----
+## License
 
-## About This Dataset
-
-This directory contains **synthetic family history documents** created for demonstration purposes. All names, dates, locations, and events are fictional, though they are designed to be historically plausible and representative of typical American family histories from the mid-19th to early 20th centuries.
-
-## Purpose
-
-These materials are crafted to:
-- Be relatable to general audiences interested in genealogy and family history
-- Demonstrate the annotation and knowledge extraction capabilities of Semiont
-- Provide realistic examples of biographical narratives and historical documentation
-- Show how family relationships, timelines, and historical contexts can be annotated and linked
-
-## Contents
-
-The synthetic documents include:
-- **Biographical narratives** - Life stories of fictional Turner family members
-- **Historical photographs** - Representative images that could appear in family collections
-- **Timeline entries** - Key life events presented in chronological format
-
-## Historical Context
-
-While the Turner family is entirely fictional, their stories reflect real historical experiences:
-- Civil War service and its impact on families
-- Westward expansion and homesteading under the Homestead Act
-- Agricultural challenges like the 1870s locust plagues
-- The transition from agricultural to industrial economies
-- Small-town American life in the late 1800s and early 1900s
-
-## Usage
-
-These materials are ideal for:
-- Testing entity recognition (people, places, dates, events)
-- Exploring relationship mapping between family members
-- Demonstrating temporal annotation and timeline construction
-- Showing how historical context can enrich family narratives
-- Training annotation models on genealogical content
-
-## Note on Authenticity
-
-While these documents aim for historical plausibility, they should not be used as actual historical references. They are educational tools designed to demonstrate information extraction and annotation techniques on familiar, accessible content that many people can relate to through their own family histories.
+Apache 2.0 — See [LICENSE](LICENSE) for details.
