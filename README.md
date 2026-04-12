@@ -51,17 +51,15 @@ Starts PostgreSQL and the Semiont backend in containers, and creates an admin us
 
 Open **http://localhost:4000** to verify.
 
-In a second terminal, start the frontend (`container` can be replaced with `docker` or `podman`):
+### Browse this knowledge base
 
-```bash
-container run --publish 3000:3000 -it ghcr.io/the-ai-alliance/semiont-frontend:latest
-```
+Start a Semiont browser by [running the container or desktop app](https://github.com/The-AI-Alliance/semiont#start-the-browser).
 
-Open **http://localhost:3000** and enter **http://localhost:4000** as the knowledge base URL.
+Open **http://localhost:3000** and in the Knowledge Bases panel enter host `localhost`, port `4000`, and the email and password you provided above.
 
 ## What's Inside
 
-The `.semiont/` directory contains the infrastructure to run a Semiont backend and frontend locally:
+The `.semiont/` directory contains the infrastructure to run a Semiont backend locally:
 
 ```
 .semiont/
