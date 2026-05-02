@@ -11,8 +11,8 @@
 
 import {
   SemiontClient,
-  annotationId,
   resourceId as ridBrand,
+  type AnnotationId,
   type GatheredContext,
   type ResourceId,
 } from '@semiont/sdk';
@@ -30,7 +30,7 @@ function slugify(text: string): string {
 
 interface AnnoRef {
   rId: ResourceId;
-  annId: string;
+  annId: AnnotationId;
   text: string;
   entityTypes: string[];
   /** Source resource markdown body (read for memorial-URL extraction). */
@@ -112,14 +112,13 @@ async function main(): Promise<void> {
 
   for (const [key, anns] of clusters) {
     const sample = anns[0];
-    const sampleAnnId = annotationId(sample.annId);
 
-    const gather = await semiont.gather.annotation(sampleAnnId, sample.rId, { contextWindow: 1500 });
+    const gather = await semiont.gather.annotation(sample.annId, sample.rId, { contextWindow: 1500 });
     const context = gather.response as GatheredContext;
 
     // Match against existing Person resources (could include skill-1-ingested
     // Subject biographies — those are already Person-typed).
-    const matchResult = await semiont.match.search(sample.rId, sampleAnnId, context, {
+    const matchResult = await semiont.match.search(sample.rId, sample.annId, context, {
       limit: 5,
       useSemanticScoring: true,
     });
@@ -184,7 +183,7 @@ async function main(): Promise<void> {
     personResourceIds.set(key, targetResourceId);
 
     for (const a of anns) {
-      await semiont.bind.body(a.rId, annotationId(a.annId), [
+      await semiont.bind.body(a.rId, a.annId, [
         {
           op: 'add',
           item: { type: 'SpecificResource', source: targetResourceId, purpose: 'linking' },
